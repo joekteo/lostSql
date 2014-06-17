@@ -1,0 +1,23 @@
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: lostSql_dev1
+  pool: 5
+  username: railerman
+  password: 'keithteo1'
+
+test:
+  adapter: postgresql
+  encoding: unicode
+  database: lostSql_test1
+  pool: 5
+  username: railerman
+  password: 'keithteo1'
+
+production:
+  adapter: postgresql
+  encoding: unicode
+  database: lostSql_production1
+  pool: 5
+  username: railerman
+  password: 'keithteo1'
