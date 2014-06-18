@@ -3,5 +3,6 @@ source 'https://rubygems.org'
 gem 'rails', '4.0.4'
 
 gem 'pg'
-gem 'active_model_serializers'
+gem 'rabl', github: 'nesquena/rabl'
+gem 'oj'
 gem 'puma'

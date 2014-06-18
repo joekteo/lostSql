@@ -7,3 +7,149 @@ Migrating to CreateUsers (20140617045540)
   [1m[35mSQL (13.4ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ($1)  [["version", "20140617045540"]]
   [1m[36m (5.8ms)[0m  [1mCOMMIT[0m
   [1m[35mActiveRecord::SchemaMigration Load (0.5ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+  [1m[36mActiveRecord::SchemaMigration Load (0.5ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Migrating to CreateArticles (20140617052901)
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (19.0ms)[0m  [1mCREATE TABLE "articles" ("id" serial primary key, "title" character varying(255), "body" character varying(255), "created_at" timestamp, "updated_at" timestamp) [0m
+  [1m[35mSQL (6.9ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ($1)  [["version", "20140617052901"]]
+  [1m[36m (6.4ms)[0m  [1mCOMMIT[0m
+Migrating to CreateTags (20140617053015)
+  [1m[35m (0.4ms)[0m  BEGIN
+  [1m[36m (4.9ms)[0m  [1mCREATE TABLE "tags" ("id" serial primary key, "name" character varying(255), "created_at" timestamp, "updated_at" timestamp) [0m
+  [1m[35m (1.0ms)[0m  CREATE TABLE "articles_tags" ("article_id" integer NOT NULL, "tag_id" integer NOT NULL) 
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ($1)[0m  [["version", "20140617053015"]]
+  [1m[35m (0.4ms)[0m  COMMIT
+Migrating to CreateComments (20140617055554)
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (1.9ms)[0m  CREATE TABLE "comments" ("id" serial primary key, "body" character varying(255), "article_id" integer, "user_id" integer, "comment_id" integer, "created_at" timestamp, "updated_at" timestamp) 
+  [1m[36m (0.8ms)[0m  [1mCREATE INDEX "index_comments_on_article_id" ON "comments" ("article_id")[0m
+  [1m[35m (0.9ms)[0m  CREATE INDEX "index_comments_on_user_id" ON "comments" ("user_id")
+  [1m[36m (0.7ms)[0m  [1mCREATE INDEX "index_comments_on_comment_id" ON "comments" ("comment_id")[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ($1)  [["version", "20140617055554"]]
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+Migrating to CreateDuties (20140617055604)
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36m (2.3ms)[0m  [1mCREATE TABLE "duties" ("id" serial primary key, "title" character varying(255), "created_at" timestamp, "updated_at" timestamp) [0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ($1)  [["version", "20140617055604"]]
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+Migrating to CreateJobs (20140617055610)
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (2.2ms)[0m  [1mCREATE TABLE "jobs" ("id" serial primary key, "duty_id" integer, "user_id" integer, "starts_on" date, "ends_on" date, "created_at" timestamp, "updated_at" timestamp) [0m
+  [1m[35m (0.8ms)[0m  CREATE INDEX "index_jobs_on_duty_id" ON "jobs" ("duty_id")
+  [1m[36m (0.8ms)[0m  [1mCREATE INDEX "index_jobs_on_user_id" ON "jobs" ("user_id")[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ($1)  [["version", "20140617055610"]]
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.3ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+  [1m[36m (10.2ms)[0m  [1mCREATE TABLE "schema_migrations" ("version" character varying(255) NOT NULL) [0m
+  [1m[35m (2.0ms)[0m  CREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")
+  [1m[36mActiveRecord::SchemaMigration Load (0.5ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Migrating to EnableUuidOsspExtension (20140617045539)
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (14.8ms)[0m  [1mCREATE EXTENSION IF NOT EXISTS "uuid-ossp"[0m
+  [1m[35mSQL (0.7ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ($1)  [["version", "20140617045539"]]
+  [1m[36m (0.5ms)[0m  [1mCOMMIT[0m
+Migrating to CreateUsers (20140617045540)
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (3.3ms)[0m  [1mCREATE TABLE "users" ("id" uuid PRIMARY KEY DEFAULT uuid_generate_v4(), "name" character varying(255), "email" character varying(255), "created_at" timestamp, "updated_at" timestamp) [0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ($1)  [["version", "20140617045540"]]
+  [1m[36m (0.5ms)[0m  [1mCOMMIT[0m
+Migrating to CreateArticles (20140617052901)
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (3.2ms)[0m  [1mCREATE TABLE "articles" ("id" uuid PRIMARY KEY DEFAULT uuid_generate_v4(), "title" character varying(255), "body" character varying(255), "user_id" uuid, "created_at" timestamp, "updated_at" timestamp) [0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ($1)  [["version", "20140617052901"]]
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+Migrating to CreateTags (20140617053015)
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (1.5ms)[0m  [1mCREATE TABLE "tags" ("id" uuid PRIMARY KEY DEFAULT uuid_generate_v4(), "name" character varying(255), "created_at" timestamp, "updated_at" timestamp) [0m
+  [1m[35m (0.7ms)[0m  CREATE TABLE "articles_tags" ("article_id" integer NOT NULL, "tag_id" integer NOT NULL) 
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ($1)[0m  [["version", "20140617053015"]]
+  [1m[35m (0.4ms)[0m  COMMIT
+Migrating to CreateComments (20140617055554)
+  [1m[36m (0.3ms)[0m  [1mBEGIN[0m
+  [1m[35m (1.8ms)[0m  CREATE TABLE "comments" ("id" uuid PRIMARY KEY DEFAULT uuid_generate_v4(), "body" character varying(255), "article_id" uuid, "comment_id" uuid, "user_id" uuid, "created_at" timestamp, "updated_at" timestamp) 
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ($1)[0m  [["version", "20140617055554"]]
+  [1m[35m (0.5ms)[0m  COMMIT
+Migrating to CreateDuties (20140617055604)
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (1.9ms)[0m  CREATE TABLE "duties" ("id" uuid PRIMARY KEY DEFAULT uuid_generate_v4(), "title" character varying(255), "created_at" timestamp, "updated_at" timestamp) 
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ($1)[0m  [["version", "20140617055604"]]
+  [1m[35m (0.4ms)[0m  COMMIT
+Migrating to CreateJobs (20140617055610)
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (1.5ms)[0m  CREATE TABLE "jobs" ("id" uuid PRIMARY KEY DEFAULT uuid_generate_v4(), "duty_id" uuid, "user_id" uuid, "starts_on" date, "ends_on" date, "created_at" timestamp, "updated_at" timestamp) 
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ($1)[0m  [["version", "20140617055610"]]
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.2ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+  [1m[36mUser Load (0.4ms)[0m  [1mSELECT "users".* FROM "users"[0m
+  [1m[35mDuty Load (0.4ms)[0m  SELECT "duties".* FROM "duties"
+  [1m[36mTag Load (0.6ms)[0m  [1mSELECT "tags".* FROM "tags"[0m
+  [1m[35mArticle Load (0.4ms)[0m  SELECT "articles".* FROM "articles"
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (29.4ms)[0m  INSERT INTO "users" ("created_at", "email", "name", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["created_at", Tue, 17 Jun 2014 08:16:23 UTC +00:00], ["email", "sammy@munat.com"], ["name", "Sam"], ["updated_at", Tue, 17 Jun 2014 08:16:23 UTC +00:00]]
+  [1m[36m (0.5ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "users" ("created_at", "email", "name", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["created_at", Tue, 17 Jun 2014 08:16:23 UTC +00:00], ["email", "sally@munat.com"], ["name", "Sally"], ["updated_at", Tue, 17 Jun 2014 08:16:23 UTC +00:00]]
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.1ms)[0m  INSERT INTO "tags" ("created_at", "name", "updated_at") VALUES ($1, $2, $3) RETURNING "id"  [["created_at", Tue, 17 Jun 2014 08:16:23 UTC +00:00], ["name", "red"], ["updated_at", Tue, 17 Jun 2014 08:16:23 UTC +00:00]]
+  [1m[36m (0.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "tags" ("created_at", "name", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["created_at", Tue, 17 Jun 2014 08:16:23 UTC +00:00], ["name", "green"], ["updated_at", Tue, 17 Jun 2014 08:16:23 UTC +00:00]]
+  [1m[35m (0.3ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "tags" ("created_at", "name", "updated_at") VALUES ($1, $2, $3) RETURNING "id"  [["created_at", Tue, 17 Jun 2014 08:16:23 UTC +00:00], ["name", "blue"], ["updated_at", Tue, 17 Jun 2014 08:16:23 UTC +00:00]]
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.9ms)[0m  [1mINSERT INTO "duties" ("created_at", "title", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["created_at", Tue, 17 Jun 2014 08:16:23 UTC +00:00], ["title", "Lie"], ["updated_at", Tue, 17 Jun 2014 08:16:23 UTC +00:00]]
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "duties" ("created_at", "title", "updated_at") VALUES ($1, $2, $3) RETURNING "id"  [["created_at", Tue, 17 Jun 2014 08:16:23 UTC +00:00], ["title", "Cheat"], ["updated_at", Tue, 17 Jun 2014 08:16:23 UTC +00:00]]
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "duties" ("created_at", "title", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["created_at", Tue, 17 Jun 2014 08:16:23 UTC +00:00], ["title", "Steal"], ["updated_at", Tue, 17 Jun 2014 08:16:23 UTC +00:00]]
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (8.6ms)[0m  INSERT INTO "jobs" ("created_at", "duty_id", "ends_on", "starts_on", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"  [["created_at", Tue, 17 Jun 2014 08:16:23 UTC +00:00], ["duty_id", "97863ce1-2b84-4cbb-8d4c-c0d100e15daa"], ["ends_on", Tue, 24 Jun 2014], ["starts_on", Tue, 10 Jun 2014], ["updated_at", Tue, 17 Jun 2014 08:16:23 UTC +00:00], ["user_id", "c1a9b22f-bbdf-4d5f-a378-46a42b0f839a"]]
+  [1m[36m (6.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.7ms)[0m  [1mINSERT INTO "jobs" ("created_at", "duty_id", "ends_on", "starts_on", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["created_at", Tue, 17 Jun 2014 08:16:23 UTC +00:00], ["duty_id", "87494ab5-2a4a-4949-9583-5b4bf9308704"], ["ends_on", Wed, 25 Jun 2014], ["starts_on", Wed, 11 Jun 2014], ["updated_at", Tue, 17 Jun 2014 08:16:23 UTC +00:00], ["user_id", "c1a9b22f-bbdf-4d5f-a378-46a42b0f839a"]]
+  [1m[35m (6.3ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.7ms)[0m  INSERT INTO "jobs" ("created_at", "duty_id", "ends_on", "starts_on", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"  [["created_at", Tue, 17 Jun 2014 08:16:23 UTC +00:00], ["duty_id", "87494ab5-2a4a-4949-9583-5b4bf9308704"], ["ends_on", Thu, 26 Jun 2014], ["starts_on", Thu, 12 Jun 2014], ["updated_at", Tue, 17 Jun 2014 08:16:23 UTC +00:00], ["user_id", "b494f261-0436-47c9-b8f3-9c4b499c0145"]]
+  [1m[36m (6.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.7ms)[0m  [1mINSERT INTO "jobs" ("created_at", "duty_id", "ends_on", "starts_on", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["created_at", Tue, 17 Jun 2014 08:16:23 UTC +00:00], ["duty_id", "86b46a4e-4d6c-4c67-9df9-691111e221a5"], ["ends_on", Fri, 27 Jun 2014], ["starts_on", Fri, 13 Jun 2014], ["updated_at", Tue, 17 Jun 2014 08:16:23 UTC +00:00], ["user_id", "b494f261-0436-47c9-b8f3-9c4b499c0145"]]
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (6.9ms)[0m  INSERT INTO "articles" ("body", "created_at", "title", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["body", "This article has a nice body."], ["created_at", Tue, 17 Jun 2014 08:16:23 UTC +00:00], ["title", "The First Article"], ["updated_at", Tue, 17 Jun 2014 08:16:23 UTC +00:00], ["user_id", "c1a9b22f-bbdf-4d5f-a378-46a42b0f839a"]]
+  [1m[36m (0.4ms)[0m  [1mINSERT INTO "articles_tags" ("article_id", "tag_id") VALUES (76, 0)[0m
+  [1m[35m (0.2ms)[0m  INSERT INTO "articles_tags" ("article_id", "tag_id") VALUES (76, 0)
+  [1m[36m (6.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.7ms)[0m  [1mINSERT INTO "articles" ("body", "created_at", "title", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["body", "This article has a really nice body."], ["created_at", Tue, 17 Jun 2014 08:16:23 UTC +00:00], ["title", "The Other Article"], ["updated_at", Tue, 17 Jun 2014 08:16:23 UTC +00:00], ["user_id", "b494f261-0436-47c9-b8f3-9c4b499c0145"]]
+  [1m[35m (0.2ms)[0m  INSERT INTO "articles_tags" ("article_id", "tag_id") VALUES (9, 0)
+  [1m[36m (0.2ms)[0m  [1mINSERT INTO "articles_tags" ("article_id", "tag_id") VALUES (9, 0)[0m
+  [1m[35m (0.5ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.9ms)[0m  INSERT INTO "comments" ("article_id", "body", "created_at", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["article_id", "76cd247b-0fbe-4a45-b8a2-4e5e8be70585"], ["body", "A comment on the first article"], ["created_at", Tue, 17 Jun 2014 08:16:23 UTC +00:00], ["updated_at", Tue, 17 Jun 2014 08:16:23 UTC +00:00], ["user_id", "b494f261-0436-47c9-b8f3-9c4b499c0145"]]
+  [1m[36m (0.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "comments" ("article_id", "body", "created_at", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["article_id", "9b992764-62de-4f6f-a680-b6a8ee2ee27c"], ["body", "A comment on the second article"], ["created_at", Tue, 17 Jun 2014 08:16:23 UTC +00:00], ["updated_at", Tue, 17 Jun 2014 08:16:23 UTC +00:00], ["user_id", "c1a9b22f-bbdf-4d5f-a378-46a42b0f839a"]]
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.8ms)[0m  INSERT INTO "comments" ("body", "comment_id", "created_at", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["body", "A comment on the first comment"], ["comment_id", "dc7b9522-22ea-48f4-947a-598fa98a67f4"], ["created_at", Tue, 17 Jun 2014 08:16:23 UTC +00:00], ["updated_at", Tue, 17 Jun 2014 08:16:23 UTC +00:00], ["user_id", "c1a9b22f-bbdf-4d5f-a378-46a42b0f839a"]]
+  [1m[36m (0.5ms)[0m  [1mCOMMIT[0m
+
+
+Started GET "/" for 127.0.0.1 at 2014-06-18 11:30:07 +0800
+  [1m[36mActiveRecord::SchemaMigration Load (7.3ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by ApiController#index as JSON
+  Rendered api/index.json.rabl (0.9ms)
+Completed 200 OK in 13ms (Views: 12.5ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2014-06-18 11:30:07 +0800
+Processing by ApiController#index as JSON
+  Rendered api/index.json.rabl (0.2ms)
+Completed 200 OK in 2ms (Views: 1.7ms | ActiveRecord: 0.0ms)

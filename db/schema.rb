@@ -11,12 +11,56 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140617045540) do
+ActiveRecord::Schema.define(version: 20140617054141) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "uuid-ossp"
 
-  create_table "users", force: true do |t|
+  create_table "articles", id: :uuid, default: "uuid_generate_v4()", force: true do |t|
+    t.string   "title"
+    t.string   "body"
+    t.uuid     "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "articles_tags", id: false, force: true do |t|
+    t.uuid "article_id"
+    t.uuid "tag_id"
+  end
+
+  create_table "comments", id: :uuid, default: "uuid_generate_v4()", force: true do |t|
+    t.string   "body"
+    t.uuid     "article_id"
+    t.uuid     "comment_id"
+    t.uuid     "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "duties", id: :uuid, default: "uuid_generate_v4()", force: true do |t|
+    t.string   "title"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "jobs", id: :uuid, default: "uuid_generate_v4()", force: true do |t|
+    t.uuid     "duty_id"
+    t.uuid     "user_id"
+    t.date     "starts_on"
+    t.date     "ends_on"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "tags", id: :uuid, default: "uuid_generate_v4()", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "users", id: :uuid, default: "uuid_generate_v4()", force: true do |t|
     t.string   "name"
     t.string   "email"
     t.datetime "created_at"
